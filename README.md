@@ -1,1 +1,1 @@
-This project provides a comparison between Stochastic EM algorithm and the EM algorithm on some data about the weather for some cities in Canada over a long period of time
+This project provides a comparison between Stochastic EM algorithm and the EM algorithm on some data about the weather for some cities in Canada over a long period of time. The project makes use of the MixtComp and Mclust packages.
