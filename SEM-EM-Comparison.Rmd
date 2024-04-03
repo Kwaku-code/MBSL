@@ -1,0 +1,96 @@
+---
+title: "EM-SEM"
+author: "Kwaku"
+date: "April 3, 2024"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+
+
+```{r}
+library(RMixtComp)
+
+data(CanadianWeather)
+
+# convert functional to MixtComp format
+dat <- list(
+     tempav = apply(
+         CanadianWeather$tempav, 2,
+         function(x) createFunctional(CanadianWeather$time, x)
+     ),
+     precav = apply(
+         CanadianWeather$precav, 2,
+         function(x) createFunctional(CanadianWeather$time, x)
+     )
+ )
+
+```
+
+
+```{r}
+# create model with 4 subregressions ans 2 coefficients per regression
+model <- list(
+     tempav = list(type = "Func_CS", paramStr = "nSub: 4, nCoeff: 2"),
+     precav = list(type = "Func_CS", paramStr = "nSub: 4, nCoeff: 2")
+ )
+```
+
+
+```{r}
+# create algo
+algo <- createAlgo()
+```
+
+
+```{r}
+# run clustering
+resLearn <- mixtCompLearn(dat, model, algo, nClass = 2:4, criterion = "ICL", nRun = 3, nCore = 1)
+```
+
+
+```{r}
+summary(resLearn)
+```
+
+```{r}
+plot(resLearn)
+```
+
+# The EM ALGORITHM
+```{r}
+library(MASS)
+library(ggplot2)
+library(mclust)
+```
+
+```{r}
+data <- read.csv("C:/Users/DELL/OneDrive/Documents/canadaweather.csv")
+```
+
+```{r}
+dens <- densityMclust(data)
+plot(dens,what='density',type='persp')
+```
+
+```{r}
+em <- Mclust(data)
+```
+
+```{r}
+summary(em)
+```
+
+```{r}
+plot(em,what='BIC')
+```
+
+```{r}
+
+```
+
